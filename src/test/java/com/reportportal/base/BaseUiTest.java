@@ -16,7 +16,7 @@ public abstract class BaseUiTest {
         playwright = Playwright.create();
 
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-                .setChannel("chrome")   // или "chrome"
+                .setChannel("chrome")
                 .setHeadless(true));
 
         context = browser.newContext();
