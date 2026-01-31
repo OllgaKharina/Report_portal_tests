@@ -1,8 +1,8 @@
-package com.reportportal.ui.tests.tests;
+package com.reportportal.ui;
 
 import com.reportportal.base.BaseUiTest;
-import com.reportportal.ui.tests.pages.LaunchesPage; // Импортируем новую страницу
-import com.reportportal.ui.tests.pages.LoginPage;
+import com.reportportal.ui.pages.LaunchesPage; // Импортируем новую страницу
+import com.reportportal.ui.pages.LoginPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

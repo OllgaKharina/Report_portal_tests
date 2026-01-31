@@ -1,4 +1,4 @@
-package com.reportportal.api.tests;
+package com.reportportal.api;
 
 import com.reportportal.base.BaseApiTest;
 import com.reportportal.api.utils.LaunchApiUtils;

@@ -1,4 +1,4 @@
-package com.reportportal.ui.tests.pages;
+package com.reportportal.ui.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
