@@ -1,5 +1,6 @@
 package com.reportportal.base;
 
+import com.reportportal.config.TestConfig;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.slf4j.Logger;
@@ -10,18 +11,19 @@ public abstract class BaseApiTest {
     protected static final Logger log =
             LoggerFactory.getLogger(BaseApiTest.class);
 
-    protected static final String BASE_URL =
-            "https://demo.reportportal.io/api/v1";
-
-    protected static final String PROJECT =
-            "ollgakharina_personal";
-
-    protected static final String API_KEY =
-            "Peport-portal-API-Tests-key_WpNtsjIkS5u4DJhyBAbZZDLzyXhMD2kz2aJ83RZxk05R9BPcjOprNshfDiETa-X2";
+    protected static String BASE_URL;
+    protected static String PROJECT;
+    protected static String API_KEY;
 
     @BeforeAll
     static void setup() {
-        log.info("Setting up RestAssured base configuration");
+        BASE_URL = TestConfig.apiUrl();
+        PROJECT = TestConfig.project();
+        API_KEY = TestConfig.apiKey();
+
+        log.info("Setting up RestAssured");
+        log.info("Base URL: {}", BASE_URL);
+        log.info("Project: {}", PROJECT);
 
         RestAssured.baseURI = BASE_URL;
 
@@ -29,9 +31,5 @@ public abstract class BaseApiTest {
                 .given()
                 .header("Authorization", "Bearer " + API_KEY)
                 .header("Content-Type", "application/json");
-
-        log.info("Base URI set to {}", BASE_URL);
     }
 }
-
-

@@ -1,6 +1,7 @@
-package com.reportportal.ui.tests;
+package com.reportportal.ui;
 
 import com.reportportal.base.BaseUiTest;
+import com.reportportal.ui.pages.LaunchesPage; // Импортируем новую страницу
 import com.reportportal.ui.pages.LoginPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,73 +12,65 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LaunchesUiTests extends BaseUiTest {
 
+    private LaunchesPage launchesPage;
+
     @BeforeEach
     void loginAndOpenLaunches() {
         LoginPage loginPage = new LoginPage(page);
         loginPage.open();
         loginPage.login();
 
-        page.locator(
-                "a[href='#default_personal/launches'][aria-current='true']"
-        ).waitFor();
+        launchesPage = new LaunchesPage(page);
+        launchesPage.waitForActiveLaunchesLink();
     }
 
     @Test
     void shouldOpenLaunchesPageAfterLogin() {
-        boolean launchesMenuIsActive = page.locator(
-                "a[href='#default_personal/launches'][aria-current='true']"
-        ).isVisible();
-
         assertTrue(
-                launchesMenuIsActive,
+                launchesPage.isLaunchesLinkVisible(),
                 "После логина пользователь должен находиться на странице Launches"
         );
     }
 
     @Test
     void shouldDisplayAtLeastOneLaunch() {
-        var launchLinks = page.locator("a[class*='itemInfo__name-link']");
-
-        launchLinks.first().waitFor();
+        launchesPage.launchNameLinks().first().waitFor();
 
         assertTrue(
-                launchLinks.count() > 0,
+                launchesPage.launchNameLinks().count() > 0,
                 "В списке Launches должен быть хотя бы один запуск"
         );
     }
 
     @Test
     void shouldExpandLaunchAndShowBreadcrumb() {
-        // Arrange
-        var firstLaunchLink = page.locator("a[class*='itemInfo__name-link']").first();
-
+        launchesPage.launchNameLinks().first().waitFor();
+        var firstLaunchLink = launchesPage.launchNameLinks().first();
         String launchName = firstLaunchLink.innerText();
 
         firstLaunchLink.click();
 
-        var breadcrumbLaunchName = page.locator(
-                "span[class*='breadcrumb__link-item'] span"
-        );
-
-        breadcrumbLaunchName.waitFor();
+        var breadcrumb = launchesPage.breadcrumbLaunchName();
+        breadcrumb.waitFor();
 
         assertTrue(
-                breadcrumbLaunchName.innerText().contains(launchName),
+                breadcrumb.innerText().contains(launchName),
                 "В breadcrumb должно отображаться имя выбранного запуска"
         );
     }
 
     @Test
     void shouldDisplayLaunchesTableHeaderWithMainColumns() {
-        var gridHeader = page.locator("div[class*='gridHeader']");
+        var gridHeader = launchesPage.gridHeader();
 
-        assertThat(gridHeader).containsText("name");
-        assertThat(gridHeader).containsText("start");
-        assertThat(gridHeader).containsText("total");
-        assertThat(gridHeader).containsText("passed");
-        assertThat(gridHeader).containsText("failed");
-        assertThat(gridHeader).containsText("skipped");
+        assertAll("Проверка заголовков таблицы",
+                () -> assertThat(gridHeader).containsText("name"),
+                () -> assertThat(gridHeader).containsText("start"),
+                () -> assertThat(gridHeader).containsText("total"),
+                () -> assertThat(gridHeader).containsText("passed"),
+                () -> assertThat(gridHeader).containsText("failed"),
+                () -> assertThat(gridHeader).containsText("skipped")
+        );
     }
 
 }
-
