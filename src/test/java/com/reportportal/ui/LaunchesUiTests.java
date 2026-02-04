@@ -5,9 +5,6 @@ import com.reportportal.ui.pages.LaunchesPage; // Импортируем нов�
 import com.reportportal.ui.pages.LoginPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LaunchesUiTests extends BaseUiTest {
@@ -34,43 +31,31 @@ public class LaunchesUiTests extends BaseUiTest {
 
     @Test
     void shouldDisplayAtLeastOneLaunch() {
-        launchesPage.launchNameLinks().first().waitFor();
+        launchesPage.waitForAtLeastOneLaunch();
 
         assertTrue(
-                launchesPage.launchNameLinks().count() > 0,
+                launchesPage.hasAtLeastOneLaunch(),
                 "В списке Launches должен быть хотя бы один запуск"
         );
     }
 
     @Test
     void shouldExpandLaunchAndShowBreadcrumb() {
-        launchesPage.launchNameLinks().first().waitFor();
-        var firstLaunchLink = launchesPage.launchNameLinks().first();
-        String launchName = firstLaunchLink.innerText();
+        String launchName = launchesPage.getFirstLaunchName();
 
-        firstLaunchLink.click();
-
-        var breadcrumb = launchesPage.breadcrumbLaunchName();
-        breadcrumb.waitFor();
+        launchesPage.openFirstLaunch();
 
         assertTrue(
-                breadcrumb.innerText().contains(launchName),
+                launchesPage.isBreadcrumbContainsLaunchName(launchName),
                 "В breadcrumb должно отображаться имя выбранного запуска"
         );
     }
 
     @Test
     void shouldDisplayLaunchesTableHeaderWithMainColumns() {
-        var gridHeader = launchesPage.gridHeader();
-
-        assertAll("Проверка заголовков таблицы",
-                () -> assertThat(gridHeader).containsText("name"),
-                () -> assertThat(gridHeader).containsText("start"),
-                () -> assertThat(gridHeader).containsText("total"),
-                () -> assertThat(gridHeader).containsText("passed"),
-                () -> assertThat(gridHeader).containsText("failed"),
-                () -> assertThat(gridHeader).containsText("skipped")
+        assertTrue(
+                launchesPage.hasMainTableColumns(),
+                "В таблице Launches должны отображаться основные колонки"
         );
     }
-
 }

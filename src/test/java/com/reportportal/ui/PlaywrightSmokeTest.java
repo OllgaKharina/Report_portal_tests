@@ -5,6 +5,7 @@ import com.reportportal.ui.pages.LoginPage;
 import org.junit.jupiter.api.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlaywrightSmokeTest extends BaseUiTest {
 
@@ -15,6 +16,6 @@ public class PlaywrightSmokeTest extends BaseUiTest {
         loginPage.open();
         loginPage.login();
 
-        assertThat(loginPage.getWelcomeMessageLocator()).isVisible();
+        assertTrue(loginPage.isWelcomeMessageVisible());
     }
 }

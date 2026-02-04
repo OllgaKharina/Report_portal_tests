@@ -1,12 +1,13 @@
-package com.reportportal.api.utils;
+package com.reportportal.api.steps;
 
+import com.reportportal.api.DTO.LaunchDTO;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
-public class LaunchApiUtils {
+public class LaunchesApiSteps {
 
-    public static LaunchData createLaunch(String project) {
+    public static LaunchDTO createLaunch(String project) {
         Response createResponse =
                 given()
                         .body("""
@@ -34,11 +35,23 @@ public class LaunchApiUtils {
                         .extract()
                         .response();
 
-        LaunchData data = new LaunchData();
+        LaunchDTO data = new LaunchDTO();
         data.uuid = uuid;
         data.id = getResponse.path("id");
 
         return data;
+    }
+
+    public static Response getLaunches(String project, int page, int size) {
+        return given()
+                .queryParam("page.page", page)
+                .queryParam("page.size", size)
+                .when()
+                .get("/" + project + "/launch")
+                .then()
+                .statusCode(200)
+                .extract()
+                .response();
     }
 
     public static void deleteLaunch(String project, Integer id) {

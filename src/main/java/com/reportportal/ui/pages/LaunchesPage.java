@@ -8,66 +8,65 @@ import java.util.List;
 
 public class LaunchesPage extends BasePage {
 
+    private static final String LAUNCH_BY_NAME = "a:has-text('%s')";
+
+    private final Locator activeLaunchesLink;
+    private final Locator launchNameLinks;
+    private final Locator gridHeader;
+    private final Locator breadcrumbLaunchName;
+
+
     public LaunchesPage(Page page) {
         super(page);
-    }
-
-    public void open() {
-        page.navigate(TestConfig.launchesUrl(), new Page.NavigateOptions()
-                .setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
-    }
-
-    public Locator activeLaunchesLink() {
-        return locator("a[href='#default_personal/launches'][aria-current='true']");
+        this.activeLaunchesLink = locator("a[href='#default_personal/launches'][aria-current='true']");
+        this.launchNameLinks = locator("a[class*='itemInfo__name-link']");
+        this.gridHeader = locator("div[class*='gridHeader']");
+        this.breadcrumbLaunchName = locator("span[class*='breadcrumb__link-item'] span");
     }
 
     public void waitForActiveLaunchesLink() {
-        activeLaunchesLink().waitFor();
+        activeLaunchesLink.waitFor();
+    }
+
+    public void waitForAtLeastOneLaunch() {
+        launchNameLinks.first().waitFor();
+    }
+
+    public boolean hasAtLeastOneLaunch() {
+        return launchNameLinks.count() > 0;
+    }
+
+    public String getFirstLaunchName() {
+        launchNameLinks.first().waitFor();
+        return launchNameLinks.first().textContent();
+    }
+
+    public void openFirstLaunch() {
+        launchNameLinks.first().click();
+    }
+
+    public boolean isBreadcrumbContainsLaunchName(String launchName) {
+        breadcrumbLaunchName.waitFor();
+        return breadcrumbLaunchName.textContent().contains(launchName);
     }
 
     public boolean isLaunchesLinkVisible() {
-        return activeLaunchesLink().isVisible();
+        return activeLaunchesLink.isVisible();
     }
 
-    public Locator launchesTable() {
-        return locator("div[class*='launchesTable']");
-    }
+    public boolean hasMainTableColumns() {
+        gridHeader.waitFor();
 
-    public Locator filterInput() {
-        return locator("input[placeholder='Enter name']");
-    }
+        String headerText = gridHeader.textContent();
 
-    public Locator launchByName(String name) {
-        return locator("a:has-text('" + name + "')");
-    }
-
-    public void openLaunch(String name) {
-        launchByName(name).first().click();
-    }
-
-    public Locator launchNameLinks() {
-        return locator("a[class*='itemInfo__name-link']");
-    }
-
-    public Locator gridHeader() {
-        return locator("div[class*='gridHeader']");
-    }
-
-    public Locator breadcrumbLaunchName() {
-        return locator("span[class*='breadcrumb__link-item'] span");
-    }
-
-    public List<String> getVisibleLaunchNames() {
-        return locator("a[class*='launchName']").allTextContents();
-    }
-
-    public boolean isLaunchDetailsOpened() {
-        return locator("div[class*='launchInfo']").isVisible();
-    }
-
-    public boolean isOpened() {
-        return launchesTable().isVisible();
+        return headerText.contains("name")
+                && headerText.contains("start")
+                && headerText.contains("total")
+                && headerText.contains("passed")
+                && headerText.contains("failed")
+                && headerText.contains("skipped");
     }
 }
+
 
 

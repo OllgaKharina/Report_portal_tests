@@ -1,11 +1,10 @@
 package com.reportportal.api;
 
+import com.reportportal.api.steps.LaunchesApiSteps;
+import com.reportportal.api.DTO.LaunchDTO;
 import com.reportportal.base.BaseApiTest;
-import com.reportportal.api.utils.LaunchApiUtils;
-import com.reportportal.api.utils.LaunchData;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,15 +12,16 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 class LaunchesApiTest extends BaseApiTest {
 
-    private LaunchData launchToCleanup;
+    private LaunchDTO launchToCleanup;
 
     @AfterEach
     void cleanUp() {
         if (launchToCleanup != null) {
-            LaunchApiUtils.deleteLaunch(PROJECT, launchToCleanup.id);
+            LaunchesApiSteps.deleteLaunch(PROJECT, launchToCleanup.id);
             launchToCleanup = null;
         }
     }
@@ -29,18 +29,9 @@ class LaunchesApiTest extends BaseApiTest {
     // GET LIST
     @Test
     void shouldGetLaunchesList() {
-        launchToCleanup = LaunchApiUtils.createLaunch(PROJECT);
+        launchToCleanup = LaunchesApiSteps.createLaunch(PROJECT);
 
-        Response response =
-                given()
-                        .queryParam("page.page", 1)
-                        .queryParam("page.size", 5)
-                        .when()
-                        .get("/" + PROJECT + "/launch")
-                        .then()
-                        .statusCode(200)
-                        .extract()
-                        .response();
+        Response response = LaunchesApiSteps.getLaunches(PROJECT, 1, 5);
 
         List<Map<String, Object>> launches = response.path("content");
 
@@ -56,7 +47,7 @@ class LaunchesApiTest extends BaseApiTest {
     // GET BY UUID
     @Test
     void shouldGetLaunchByUuid() {
-        launchToCleanup = LaunchApiUtils.createLaunch(PROJECT);
+        launchToCleanup = LaunchesApiSteps.createLaunch(PROJECT);
 
         Response response =
                 given()
@@ -81,7 +72,7 @@ class LaunchesApiTest extends BaseApiTest {
     // UPDATE
     @Test
     void shouldUpdateLaunch() {
-        launchToCleanup = LaunchApiUtils.createLaunch(PROJECT);
+        launchToCleanup = LaunchesApiSteps.createLaunch(PROJECT);
 
         given()
                 .body("""
@@ -127,9 +118,9 @@ class LaunchesApiTest extends BaseApiTest {
     // DELETE
     @Test
     void shouldDeleteLaunch() {
-        LaunchData launch = LaunchApiUtils.createLaunch(PROJECT);
+        LaunchDTO launch = LaunchesApiSteps.createLaunch(PROJECT);
 
-        LaunchApiUtils.deleteLaunch(PROJECT, launch.id);
+        LaunchesApiSteps.deleteLaunch(PROJECT, launch.id);
 
         launchToCleanup = null;
     }
@@ -137,7 +128,7 @@ class LaunchesApiTest extends BaseApiTest {
     // PAGING & SORTING
     @Test
     void shouldGetLaunchesWithPagingAndSorting() {
-        launchToCleanup = LaunchApiUtils.createLaunch(PROJECT);
+        launchToCleanup = LaunchesApiSteps.createLaunch(PROJECT);
 
         Response response =
                 given()
