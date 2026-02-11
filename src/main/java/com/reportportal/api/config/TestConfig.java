@@ -1,4 +1,4 @@
-package com.reportportal.config;
+package com.reportportal.api.config;
 
 import java.io.InputStream;
 import java.util.Properties;
@@ -40,6 +40,12 @@ public class TestConfig {
     }
 
     public static String apiKey() {
+
+        String envKey = System.getenv("API_KEY");
+        if (envKey != null && !envKey.isBlank()) {
+            return envKey;
+        }
+
         return properties.getProperty("api.key");
     }
 }

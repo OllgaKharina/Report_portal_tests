@@ -2,9 +2,6 @@ package com.reportportal.ui.pages;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import com.microsoft.playwright.options.WaitUntilState;
-import com.reportportal.config.TestConfig;
-import java.util.List;
 
 public class LaunchesPage extends BasePage {
 
