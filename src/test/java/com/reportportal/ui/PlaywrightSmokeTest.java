@@ -1,9 +1,10 @@
-package com.reportportal.ui.tests;
+package com.reportportal.ui;
 
 import com.reportportal.base.BaseUiTest;
 import com.reportportal.ui.pages.LoginPage;
 import org.junit.jupiter.api.Test;
 
+import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PlaywrightSmokeTest extends BaseUiTest {
@@ -15,7 +16,6 @@ public class PlaywrightSmokeTest extends BaseUiTest {
         loginPage.open();
         loginPage.login();
 
-        // Проверяем, что пользователь залогинен, ожидая появления текста
-        assertTrue(loginPage.isUserLoggedIn(), "Приветственное сообщение должно быть видно после логина.");
+        assertTrue(loginPage.isWelcomeMessageVisible());
     }
 }
