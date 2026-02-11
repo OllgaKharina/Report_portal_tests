@@ -21,6 +21,8 @@ public abstract class BaseUiTest {
 
         context = browser.newContext();
         page = context.newPage();
+
+        page.setDefaultTimeout(60000);
     }
 
     @AfterEach

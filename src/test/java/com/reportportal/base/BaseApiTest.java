@@ -26,6 +26,7 @@ public abstract class BaseApiTest {
         log.info("Project: {}", PROJECT);
         log.info("API_KEY is null? {}", API_KEY == null);
         log.info("API_KEY length: {}", API_KEY != null ? API_KEY.length() : 0);
+        log.info("API_KEY value: {}", API_KEY);
 
         if (API_KEY == null || API_KEY.isBlank()) {
             throw new RuntimeException("API_KEY is not set. Check environment variables or application.properties");

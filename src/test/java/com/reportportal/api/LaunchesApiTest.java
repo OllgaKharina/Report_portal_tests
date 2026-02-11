@@ -6,6 +6,7 @@ import com.reportportal.base.BaseApiTest;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Tag;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@Tag("API")
 class LaunchesApiTest extends BaseApiTest {
 
     private LaunchDTO launchToCleanup;
