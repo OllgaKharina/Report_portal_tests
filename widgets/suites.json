@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"ff8558d454a8ec93d6f6c3d42aa26ddc","name":"com.reportportal.api.LaunchesApiTest","statistic":{"failed":0,"broken":0,"skipped":0,"passed":6,"unknown":0,"total":6}},{"uid":"59622440aeb0c032f3982a631d28b1e2","name":"com.reportportal.ui.LaunchesUiTests","statistic":{"failed":0,"broken":0,"skipped":0,"passed":4,"unknown":0,"total":4}}]}
