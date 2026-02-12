@@ -1,0 +1,1 @@
+{"uuid":"9e020a44-2781-4886-bad8-957073f47f15","name":"shouldGetLaunchesList()","children":["51987a57-fcba-449c-83c9-1f15cba18a17"],"befores":[],"afters":[{"name":"cleanUp","status":"passed","stage":"finished","steps":[],"attachments":[],"parameters":[],"start":1770809657412,"stop":1770809657810}],"start":1770809654857,"stop":1770809657864}
