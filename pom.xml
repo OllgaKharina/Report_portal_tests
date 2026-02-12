@@ -18,7 +18,6 @@
         <junit.version>5.10.1</junit.version>
         <allure.version>2.24.0</allure.version>
 
-        <!-- важно для allure -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
