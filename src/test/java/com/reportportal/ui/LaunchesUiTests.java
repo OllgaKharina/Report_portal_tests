@@ -6,7 +6,9 @@ import com.reportportal.ui.pages.LoginPage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Tag;
 
+@Tag("UI")
 public class LaunchesUiTests extends BaseUiTest {
 
     private LaunchesPage launchesPage;
